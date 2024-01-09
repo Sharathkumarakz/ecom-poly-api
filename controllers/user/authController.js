@@ -98,8 +98,8 @@ const resendOtp = async (req, res, next) => {
 
 const verifyOtp = async (req, res, next) => {
     try {
-        const { email, password } = req.body
-        if (!email || !password) {
+        const { email, otp } = req.body
+        if (!email || !otp) {
             return res.status(401).send({
                 message: "verify mail failed due to lack of credentials"
             });
@@ -133,9 +133,9 @@ const login = async (req, res, next) => {
         const { email, password } = req.body
         if (!email || !password) {
             return res.status(401).send({
-                message: "login failed due to lack credentials  "
+                message: "login failed due to lack credentials"
             });
-        } else {
+        } else { 
             const user = await User.findOne({ email: email })
             if (!user) {
                 return res.status(401).send({
