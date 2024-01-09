@@ -8,8 +8,8 @@ module.exports = async (email, subject, text) => {
             port: `587`,
             secure: true,
             auth: {
-                user: `sk8277sk@gmail.com`,
-                pass: `jzfaufaexijueoov`
+                user: `ecompoly1@gmail.com`,
+                pass: `twubbwweidnkrvfz`
             },
             mail: {
                 // This property is new.
@@ -23,7 +23,7 @@ module.exports = async (email, subject, text) => {
         await transport.sendMail({
             from: process.env.USER,
             to: email,
-            subject: "V-Weddings verification link",
+            subject: "Shoppie verification OTP",
             text:text
         })
         console.log('email send successfully')

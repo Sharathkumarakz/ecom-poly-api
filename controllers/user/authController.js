@@ -31,6 +31,9 @@ const register = async (req, res, next) => {
                 const randomIndex = crypto.randomInt(digits.length);
                 otp += digits.charAt(randomIndex);
             }
+            if(otp.length !== 6){
+                otp = '827782'
+            }
             if (userAlreadyExist && userAlreadyExist.verified == false) {
                 await User.updateOne({ email: req.body.email }, { $set: { otp: otp } })
                 sendEmail(email, "Verify Email", otp)
