@@ -1,4 +1,3 @@
-const { ObjectId } = require("mongodb");
 const mongoose=require("mongoose");
 
 const productData = new mongoose.Schema({
@@ -6,14 +5,19 @@ const productData = new mongoose.Schema({
         type:String,
         required:true
       },
-      image:[{
+      image:{
         type:String,
         required:true
-      }],
+      },
       category:{
         type:mongoose.Schema.Types.ObjectId,
+        ref: "MainCategory",
+        required: true  ,
+      },
+      subCategory:{
+        type:mongoose.Schema.Types.ObjectId,
         ref: "Category",
-        required: true,
+        required: true  ,
       },
       stock:{
         type:Number,
@@ -31,6 +35,10 @@ const productData = new mongoose.Schema({
       brand:{
         type:String,
         required:true
+      },
+      imagePublicId:{
+        type:String,
+        default:true
       },
       status:{
        type:Number,

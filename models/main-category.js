@@ -1,15 +1,11 @@
 const mongoose=require("mongoose");
 
-const categoryData = new mongoose.Schema({
+const mainCategoryData = new mongoose.Schema({
       categoryName:{
         type:String,
         required:true
       },
       description:{
-        type:String,
-        required:true
-      },
-      origin:{
         type:String,
         required:true
       },
@@ -19,4 +15,4 @@ const categoryData = new mongoose.Schema({
         default:Date.now()
       },
 });
-module.exports=mongoose.model('Category',categoryData);
+module.exports=mongoose.model('MainCategory',mainCategoryData);

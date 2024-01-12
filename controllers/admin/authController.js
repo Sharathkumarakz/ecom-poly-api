@@ -69,10 +69,13 @@ const register = async (req, res, next) => {
     try {
         const {username,email,password,phoneNo,place,state} = JSON.parse(req.body.textFieldName);
         const photo = req.files.photo;
-        const document = req.files.document;       
+        const document = req.files.document; 
+
         const image = await uploadToCloudinary(photo.tempFilePath, "admin-registration-photo");
         const doc = await uploadToCloudinary(document.tempFilePath, "admin-registration-document");
+     
         const request = await Admin.findOne({ email:email })
+        console.log('hh');
         if(request){
         return res.status(401).send({ message: "Request with this emailId already exist" })
         }
@@ -87,11 +90,15 @@ const register = async (req, res, next) => {
             place: place,
             password: hashedPassword,
             photoPublicId: image.public_id,
-            docPublicId: doc.public_id
+            docPublicId: doc.public_id,
+            verified: false
         });
+        console.log('dshh');
+
         await adminRegister.save()
         return res.status(201).send({ message: "You will receive an email after Admin accept your request" })
     } catch (error) {
+        console.log(error);
         return res.status(400).send({
             message: "admin registration failed"
         });
