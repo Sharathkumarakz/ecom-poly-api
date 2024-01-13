@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style type="text/css">
+   ul{float:left;}
+   ul li{ list-style-type:none; margin-bottom:10px;}
+   ul li img{width:70px;height:70px;}
+  </style>
+  	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+<body>
+  <ul>
+    <li> <img src="pinaaki-new-stylish-trending-headphone-bass-expansion-wireless-original-imafgfvyseznfyxh.webp" class="small_img" alt=""></li>
+    <li> <img src="rockerz-450-pro-boat-original-imagf9gyd4u6w85z.webp" class="small_img" alt=""></li>
+    <li> <img src="wave-300-bluetooth-wireless-headphones-with-explosive-bass-sound-original-imafs5xhvvxgcfag.webp" class="small_img" alt=""></li>
+
+  </ul>
+  <img src="pinaaki-new-stylish-trending-headphone-bass-expansion-wireless-original-imafgfvyseznfyxh.webp" class="big_img" alt="">
+</body>
+
+<script type="text/javascript">
+$(document).ready(function(){
+$(".small_img").hover(function(){
+  $(".big_img").attr("src", $(this).attr('src'))
+})
+})
+
+</script>
+
+</html>

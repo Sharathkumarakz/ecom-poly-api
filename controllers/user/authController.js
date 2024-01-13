@@ -178,9 +178,31 @@ const login = async (req, res, next) => {
     }
 }
 
+
+
+const getUserDetails = async (req, res, next) => {
+    try {
+        const claims = req.headers?.userId
+        if (!claims) {
+            return res.status(400).send({
+                message: "unauthenticated"
+            });
+        } else {
+            let user = await User.findOne({ _id: claims })
+            return res.status(200).send({ user })
+        }
+    } catch (err) {
+        return res.status(400).send({
+            message: "Registration failed"
+        });
+    }
+}
+
+
 module.exports = {
     register,
     resendOtp,
     verifyOtp,
-    login
+    login,
+    getUserDetails
 }

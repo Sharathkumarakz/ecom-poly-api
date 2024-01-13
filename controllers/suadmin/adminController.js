@@ -231,7 +231,7 @@ const addProduct = async (req, res, next) => {
             subCategory:subCategory
         })
         await productData.save()
-        let allProducts = await Product.find({})
+        let allProducts = await Product.find({}).populate('category').populate('subCategory');
         return res.status(200).json({data:allProducts}) 
         
     } catch (error) {
@@ -258,7 +258,7 @@ const products = async (req, res, next) => {
 const deleteProduct = async (req, res, next) => { 
     try {
     await Product.deleteOne({ _id: req.params.id })
-    let allProduct = await Product.find({})
+    let allProduct = await Product.find({}).populate('category').populate('subCategory');
      return res.status(200).send({ data:allProduct })
     } catch (error) {
         return res.status(400).send({

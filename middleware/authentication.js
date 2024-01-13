@@ -9,6 +9,7 @@ module.exports = {
     /** user authentication */
      userAuthentication(req, res, next) {
         const cookie = req.headers.authorization
+        console.log(cookie);
         if (!cookie) {      
             return res.status(401).send({
                 message: "UnAuthenticated"
@@ -25,7 +26,7 @@ module.exports = {
         User.findOne({ _id: decode._id })
         .then(userdata => {
             if (userdata.isBlocked === true) {
-                return res.status(403).send({
+                return res.status(401).send({
                     message: "Access Denied - User is not allowed"
                 });
             } else {
@@ -38,7 +39,7 @@ module.exports = {
             });
         });
             } else {
-                return res.status(401).send({
+                return res.status(404).send({
                     message: "UnAuthenticated"
                 })
             }
@@ -49,13 +50,13 @@ module.exports = {
     adminAuthentication(req, res, next) {
         const cookie = req.headers.authorization
         if (!cookie) {      
-            return res.status(401).send({
+            return res.status(404).send({
                 message: "UnAuthenticated"
             })
         }
         jwt.verify(cookie, process.env.JWT_ADMIN_SECRETKEY, (err, decode) => {
             if (err) {
-                return res.status(401).send({
+                return res.status(404).send({
                     message: "UnAuthenticated"
                 })
             }
@@ -74,21 +75,21 @@ module.exports = {
     superAdminAuthentication(req, res, next) {
         const cookie = req.headers.authorization
         if (!cookie) {      
-            return res.status(401).send({
+            return res.status(404).send({
                 message: "UnAuthenticated"
             })
         }
         jwt.verify(cookie, process.env.JWT_SUPER_ADMIN_SECRETKEY, (err, decode) => {
             if (err) {
-                return res.status(401).send({
-                    message: "UnAuthenticated"
+                return res.status(404).send({
+                    message: "UnAuthenticated",
                 })
             }
             if (decode) {
                 req.headers.superAdminId = decode._id
                 next()
             } else {
-                return res.status(401).send({
+                return res.status(404).send({
                     message: "UnAuthenticated"
                 })
             }
