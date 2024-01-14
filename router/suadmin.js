@@ -29,7 +29,7 @@ suAdminRoute.get('/delete-product/:id',superAdminAuthentication,adminController.
 
 suAdminRoute.get('/delete-main-category/:id',superAdminAuthentication,adminController.deleteMainCategory);
 
-suAdminRoute.post('/categories',superAdminAuthentication,adminController.getCategories);
+suAdminRoute.post('/categories',adminController.getCategories);
 
 suAdminRoute.get('/main-categories',superAdminAuthentication,adminController.getMainCategories);
 

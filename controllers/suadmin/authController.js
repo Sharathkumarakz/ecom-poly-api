@@ -8,14 +8,12 @@ const SuperAdmin = require('../../models/superadmin');
 
 const login = async (req, res, next) => { //mail verification
     try {
-        console.log("gottt",req.body);
         const { email, password } = req.body
         if (!email || !password) {
             return res.status(401).send({
                 message: "login failed due to lack credentials  "
             });
         } else {
-            console.log(await SuperAdmin.findOne({ email: email }));
             const suAdmin = await SuperAdmin.findOne({ email: email })
             if (!suAdmin) {
                 return res.status(401).send({

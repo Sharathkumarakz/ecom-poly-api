@@ -75,7 +75,7 @@ const register = async (req, res, next) => {
         const doc = await uploadToCloudinary(document.tempFilePath, "admin-registration-document");
      
         const request = await Admin.findOne({ email:email })
-        console.log('hh');
+
         if(request){
         return res.status(401).send({ message: "Request with this emailId already exist" })
         }
@@ -93,12 +93,9 @@ const register = async (req, res, next) => {
             docPublicId: doc.public_id,
             verified: false
         });
-        console.log('dshh');
-
         await adminRegister.save()
         return res.status(201).send({ message: "You will receive an email after Admin accept your request" })
     } catch (error) {
-        console.log(error);
         return res.status(400).send({
             message: "admin registration failed"
         });

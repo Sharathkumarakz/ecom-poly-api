@@ -9,7 +9,6 @@ module.exports = {
     /** user authentication */
      userAuthentication(req, res, next) {
         const cookie = req.headers.authorization
-        console.log(cookie);
         if (!cookie) {      
             return res.status(401).send({
                 message: "UnAuthenticated"

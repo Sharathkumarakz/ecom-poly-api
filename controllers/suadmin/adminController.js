@@ -78,7 +78,6 @@ const blockAdmin = async (req, res, next) => {
 
 const addCategory = async (req, res, next) => { //user registration
     try {
-        console.log(req.body,"qweqe");
         const { category, description , origin } = req.body
         if (!category || !description || !origin) {
             return res.status(400).send({
@@ -103,7 +102,6 @@ const addCategory = async (req, res, next) => { //user registration
             }
         }
     } catch (err) {
-        console.log(err);
         return res.status(400).send({
             message: "add category failed"
         });
@@ -139,7 +137,6 @@ const addMainCategory = async (req, res, next) => { //user registration
             }
         }
     } catch (err) {
-        console.log(err);
         return res.status(400).send({
             message: "add category failed"
         });
@@ -186,11 +183,9 @@ const deleteMainCategory = async (req, res, next) => {
 
 const getCategories = async (req, res, next) => { 
     try {
-        console.log(req.body);
      const id = req.body?.id;
      if(id){
         const allCategory = await MainCategory.findOne({_id:id});
-        console.log(allCategory.categoryName);
         const categories = await Category.find({origin:allCategory.categoryName}); 
         return res.status(200).send({ data:categories })
      }
@@ -235,7 +230,6 @@ const addProduct = async (req, res, next) => {
         return res.status(200).json({data:allProducts}) 
         
     } catch (error) {
-        console.log(error);
         return res.status(400).send({
             message: "Fetch products failed"
         });
