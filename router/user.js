@@ -46,4 +46,7 @@ userRoute.get('/cart-remove/:id',userAuthentication,cartController.removeFromCar
 
 userRoute.post('/make-order',userAuthentication,orderController.makeOrder)
 
+userRoute.get('/orders',userAuthentication,orderController.getOrders)
+
+
 module.exports=userRoute

@@ -69,7 +69,20 @@ const makeOrder = async (req, res, next) => {
   }
 }
 
+const getOrders = async (req, res, next) => {
+  try {
+    const claim = req.headers?.userId;
+    const order = await Order.find({ userId: claim }).populate('product.productId').sort({date:-1})
+    return res.status(200).send({ data:order });
+  } catch (error) {
+    return res.status(400).send({
+      message: "Order fetch failed"
+   });
+  }
+}
+
 
 module.exports = {
     makeOrder,
+    getOrders
 }

@@ -14,6 +14,7 @@ const Admins = require('../../models/admin');
 const Category =  require('../../models/category');
 const MainCategory =  require('../../models/main-category');
 const Product =  require('../../models/product');
+const Order =  require('../../models/order');
 
 const requests = async (req, res, next) => { 
     try {
@@ -261,6 +262,29 @@ const deleteProduct = async (req, res, next) => {
     }
 }
 
+const getOrders = async (req, res, next) => { 
+    try {
+    const order = await Order.find({}).populate('product.productId').populate('userId').sort({date:-1})
+     return res.status(200).send({ data:order })
+    } catch (error) {
+        return res.status(400).send({
+            message: "order fetch failed"
+        });
+    }
+}
+
+const changeStatus = async (req, res, next) => { 
+    try {
+    const {orderId , status} = req.body
+    const data = await Order.updateOne({_id: orderId},{$set:{status:status}})
+    console.log(data);
+     return res.status(200).send({ message:'success' })
+    } catch (error) {
+        return res.status(400).send({
+            message: "order fetch failed"
+        });
+    }
+}
 
 module.exports = {
     requests,
@@ -276,5 +300,7 @@ module.exports = {
     deleteMainCategory,
     addProduct,
     products,
-    deleteProduct
+    deleteProduct,
+    getOrders,
+    changeStatus
 }

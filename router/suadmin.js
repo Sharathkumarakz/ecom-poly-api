@@ -37,4 +37,9 @@ suAdminRoute.post('/add-product',superAdminAuthentication,adminController.addPro
 
 suAdminRoute.get('/products',adminController.products);
 
+suAdminRoute.get('/orders',superAdminAuthentication,adminController.getOrders);
+
+suAdminRoute.post('/order-status',superAdminAuthentication,adminController.changeStatus);
+
+
 module.exports = suAdminRoute;
