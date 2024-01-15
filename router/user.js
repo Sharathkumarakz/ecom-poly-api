@@ -6,6 +6,8 @@ const userRoute = express();
  */
 const authController = require('../controllers/user/authController');
 const productController = require('../controllers/user/productController');
+const cartController = require('../controllers/user/cartController');
+const orderController = require('../controllers/user/orderController');
 
 const { userAuthentication } = require("../middleware/authentication");
 
@@ -33,5 +35,15 @@ userRoute.post('/remove-whishlist',userAuthentication,productController.removeFr
 userRoute.get('/whishlist',userAuthentication,productController.getWishlist)
 
 userRoute.get('/product-details/:id',productController.getProductDetails)
+
+userRoute.post('/add-cart',userAuthentication,cartController.addToCart)
+
+userRoute.get('/get-cart',userAuthentication,cartController.getCart)
+
+userRoute.post('/cart-quantity-change',userAuthentication,cartController.qantityChange)
+
+userRoute.get('/cart-remove/:id',userAuthentication,cartController.removeFromCart)
+
+userRoute.post('/make-order',userAuthentication,orderController.makeOrder)
 
 module.exports=userRoute

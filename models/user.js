@@ -61,39 +61,9 @@ const userData = new mongoose.Schema({
   wallet:{
    type:Number,
   },
-  address: [
-    {
-      houseName: {
-        type: String,
-        required: true
-      },
-      street: {
-        type: String,
-        required: true
-      },
-      district: {
-        type: String,
-        required: true
-      },
-      state: {
-        type: String,
-        required: true
-      },
-      pincode: {
-        type: String,
-        required: true
-      },
-      country: {
-        type: String,
-        required: true
-      },
-      phone: {
-        type: Number,
-        required: true
-      }
-    }
-  ],
-
+  address: {
+    type: [String],
+  },
   wishlist: [{
     product: {
       type: mongoose.Schema.Types.ObjectId,
