@@ -41,5 +41,12 @@ suAdminRoute.get('/orders',superAdminAuthentication,adminController.getOrders);
 
 suAdminRoute.post('/order-status',superAdminAuthentication,adminController.changeStatus);
 
+suAdminRoute.post('/manage-access',superAdminAuthentication,adminController.changeAccess);
+
+suAdminRoute.get('/users',superAdminAuthentication,adminController.getUsers);
+
+suAdminRoute.get('/user-unBlock/:id',superAdminAuthentication,adminController.unBlockUser);
+
+suAdminRoute.get('/user-block/:id',superAdminAuthentication,adminController.blockUser);
 
 module.exports = suAdminRoute;

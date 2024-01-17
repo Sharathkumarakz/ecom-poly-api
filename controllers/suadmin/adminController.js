@@ -15,6 +15,7 @@ const Category =  require('../../models/category');
 const MainCategory =  require('../../models/main-category');
 const Product =  require('../../models/product');
 const Order =  require('../../models/order');
+const Users =  require('../../models/user');
 
 const requests = async (req, res, next) => { 
     try {
@@ -286,6 +287,75 @@ const changeStatus = async (req, res, next) => {
     }
 }
 
+const changeAccess = async (req, res, next) => { 
+    try {
+        const {id ,access} = req.body;
+        const accesses = 'puoc'
+       if(accesses.includes(access)){
+        console.log("innn",access);
+       let changingAcccess=''
+        if(access === 'p'){
+            changingAcccess = 'product'
+        }else if(access === 'o'){
+            changingAcccess = 'order'
+        }else if(access === 'c'){
+            changingAcccess = 'category'
+        }else if(access === 'u'){
+            changingAcccess = 'user'
+        }
+        console.log("removed",changingAcccess);
+
+        await Admins.updateOne({_id:id},{$pull:{access:changingAcccess}})
+       }else{
+       await Admins.updateOne(
+          { _id: id },
+          { $addToSet: { access: access } }
+        );
+       }
+       const adminRequests = await Admins.find({verified: true});
+       return res.status(200).send({ data:adminRequests })
+    } catch (error) {
+        return res.status(400).send({
+            message: "change access failed"
+        });
+    }
+}
+
+const getUsers = async (req, res, next) => { 
+    try {
+    const users = await Users.find({}).sort({date:-1})
+     return res.status(200).send({ data:users })
+    } catch (error) {
+        return res.status(400).send({
+            message: "user fetch failed"
+        });
+    }
+}
+
+
+const unBlockUser = async (req, res, next) => { 
+    try {
+     await Users.updateOne({_id: req.params.id },{$set:{isBlocked:false}})
+     const adminRequests = await Admins.find({verified: true});
+     return res.status(200).send({ message:'success' })
+    } catch (error) {
+        return res.status(400).send({
+            message: "User unBlock failed"
+        });
+    }
+}
+
+const blockUser = async (req, res, next) => { 
+    try {
+     await Users.updateOne({_id: req.params.id },{$set:{isBlocked: true}})
+     return res.status(200).send({ message:'success' })
+    } catch (error) {
+        return res.status(400).send({
+            message: "User block failed"
+        });
+    }
+}
+
 module.exports = {
     requests,
     verifyAdmin,
@@ -302,5 +372,9 @@ module.exports = {
     products,
     deleteProduct,
     getOrders,
-    changeStatus
+    changeStatus,
+    changeAccess,
+    getUsers,
+    unBlockUser,
+    blockUser
 }

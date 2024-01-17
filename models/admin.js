@@ -17,6 +17,9 @@ const adminData = new mongoose.Schema({
         type:Number,
         required:true,   
       },
+      access: {
+        type: [String],
+      },
       isApproved:{
         type:Boolean,
         required:false,
