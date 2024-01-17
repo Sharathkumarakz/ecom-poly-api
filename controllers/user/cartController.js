@@ -101,7 +101,6 @@ const removeFromCart = async (req, res, next) => {
       
       res.status(200).send({success:true})
   } catch (error) {
-    console.log(error);
     return res.status(400).send({
       message: "Remove from cart failed"
   });

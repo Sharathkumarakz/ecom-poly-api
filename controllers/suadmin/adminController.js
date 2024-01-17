@@ -278,7 +278,6 @@ const changeStatus = async (req, res, next) => {
     try {
     const {orderId , status} = req.body
     const data = await Order.updateOne({_id: orderId},{$set:{status:status}})
-    console.log(data);
      return res.status(200).send({ message:'success' })
     } catch (error) {
         return res.status(400).send({
@@ -290,9 +289,8 @@ const changeStatus = async (req, res, next) => {
 const changeAccess = async (req, res, next) => { 
     try {
         const {id ,access} = req.body;
-        const accesses = 'puoc'
+        const accesses = ''
        if(accesses.includes(access)){
-        console.log("innn",access);
        let changingAcccess=''
         if(access === 'p'){
             changingAcccess = 'product'
@@ -303,7 +301,6 @@ const changeAccess = async (req, res, next) => {
         }else if(access === 'u'){
             changingAcccess = 'user'
         }
-        console.log("removed",changingAcccess);
 
         await Admins.updateOne({_id:id},{$pull:{access:changingAcccess}})
        }else{
@@ -336,7 +333,6 @@ const getUsers = async (req, res, next) => {
 const unBlockUser = async (req, res, next) => { 
     try {
      await Users.updateOne({_id: req.params.id },{$set:{isBlocked:false}})
-     const adminRequests = await Admins.find({verified: true});
      return res.status(200).send({ message:'success' })
     } catch (error) {
         return res.status(400).send({

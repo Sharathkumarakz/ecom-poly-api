@@ -19,10 +19,8 @@ const makeOrder = async (req, res, next) => {
     let singlePrices = [];
     let quantitys = [];
     let singleTotals = [];
-    console.log(cart);
     let count = 0;
     cart.cart.forEach(element => {
-        console.log(element.product._id);
         productIds.push(element.product._id);
         singlePrices.push(element.product.price);
         singleTotals.push(element.productTotalPrice);
@@ -39,8 +37,6 @@ const makeOrder = async (req, res, next) => {
       const singlePrice = singlePrices[i]
       orderDetails.push({ productId: productId, quantity: quantity, singleTotal: singleTotal,singlePrice:singlePrice })
     }
-
-    console.log(orderDetails);
     const ordersave = new Order({
       userId: claim,
       product: orderDetails,

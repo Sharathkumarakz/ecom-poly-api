@@ -21,7 +21,6 @@ const Product = require('../../models/product');
  const getProductByMainCategory = async (req,res,next)=>{
     try {
         const id = req.body.id
-        console.log(id,"cataegory id");
         const products = await Product.find({category:id});
         return res.status(200).send({ data:products });
     } catch (error) {
@@ -57,7 +56,6 @@ const Product = require('../../models/product');
           res.status(200).send({success:true})
         }
     } catch (error) {
-        console.log(error);
         return res.status(400).send({
             message: "Add to wishlist faild"
         });
@@ -84,7 +82,6 @@ const Product = require('../../models/product');
         const wishlistData = await User.findOne({ _id:claim }).populate('wishlist.product');
         return res.status(200).send({ data:wishlistData });
         }catch (error) {
-        console.log(error);
         return res.status(400).send({
             message: "Remove from wishlist faild"
         });
