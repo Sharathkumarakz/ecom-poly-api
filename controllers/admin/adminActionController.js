@@ -330,8 +330,11 @@ const changeStatus = async (req, res, next) => {
             });
          }
     const {orderId , status} = req.body
-    const data = await Order.updateOne({_id: orderId},{$set:{status:status}})
-    console.log(data);
+    const data = await Order.findOne({_id:orderId});
+    await Order.updateOne({_id: orderId},{$set:{status:status}})
+    if(status === 'Paid' && data.email){
+        await Order.deleteOne({_id: orderId}) 
+    } 
      return res.status(200).send({ message:'success' })
     } catch (error) {
         return res.status(400).send({

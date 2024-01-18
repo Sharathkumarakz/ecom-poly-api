@@ -5,7 +5,6 @@ const orderData = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: true,
   },
   orderId: {
     type: String,
@@ -47,7 +46,19 @@ const orderData = new mongoose.Schema({
     type: String,
     required:true,
   },
-
+  isTrust:{
+    type:Boolean,
+    default:true
+  },
+  phone:{
+    type:Number
+  },
+  email:{
+    type:String
+  },
+  trackCode:{
+    type:Number
+  },
    status:{
     type:String,
     default:"confirmed"

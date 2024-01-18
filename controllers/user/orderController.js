@@ -14,7 +14,55 @@ const makeOrder = async (req, res, next) => {
   try {
     const claim = req.headers?.userId;
     const address = req.body.address;
+    const product = req.body?.product;
+    const email = req.body?.email;
+    const phone = req.body?.phone;
     const cart = await User.findOne({ _id:claim }).populate('cart.product').exec();
+    const productDetails = await Product.findOne({ _id:product })
+    const orderDetails = [];
+    if(email && phone){  
+      const orderData = await Order.findOne({phone:phone})
+      if(orderData && orderData.status !== 'Paid'){
+        return res.status(400).send({
+          message: "An incomplte order exist with this phone number, try with another"
+      });
+      }
+      const trackId = Math.floor(100000 + Math.random() * 900000);
+      orderDetails.push({ productId: product, quantity: 1, singleTotal: productDetails.price, singlePrice:productDetails.price })
+      const ordersave = new Order({
+      product: orderDetails,
+      total:productDetails.price,
+      email:email,
+      phone:phone,
+      trackCode:trackId,
+      isTrust:false,
+      orderId:`order_id_${uuidv4()}`, 
+      deliveryAddress: address,
+      paymentType: 'COD',
+      date:Date.now(),
+    })
+    await ordersave.save()
+    
+    return res.status(200).send({
+      message: "Order placed",code:trackId
+    }); 
+    }
+    if(product){
+      orderDetails.push({ productId: product, quantity: 1, singleTotal: productDetails.price, singlePrice:productDetails.price })
+      const ordersave = new Order({
+      userId: claim,
+      product: orderDetails,
+      total:productDetails.price,
+      orderId:`order_id_${uuidv4()}`, 
+      deliveryAddress: address,
+      paymentType: 'COD',
+      date:Date.now(),
+    })
+    await ordersave.save()
+    return res.status(200).send({
+      message: "Order placed"
+    });
+    }
     let productIds = [];
     let singlePrices = [];
     let quantitys = [];
@@ -28,7 +76,6 @@ const makeOrder = async (req, res, next) => {
         count += 1;
     });
     const orders = req.body
-    const orderDetails = [];
     orders.product = orderDetails;
     for (let i = 0; i < productIds.length; i++) {
       const productId = productIds[i]
@@ -77,8 +124,27 @@ const getOrders = async (req, res, next) => {
   }
 }
 
+const getOrder = async (req, res, next) => {
+  try {
+    const orderId = req.body?.orderId;
+    const phone = req.body?.phone;
+    const order = await Order.find({trackCode: orderId,phone: phone}).populate('product.productId');
+    if(!order){
+      return res.status(400).send({
+        message: "No result found"
+    });
+    }
+    return res.status(200).send({ data:order });
+  } catch (error) {
+    return res.status(400).send({
+      message: "Order fetch failed"
+   });
+  }
+}
+
 
 module.exports = {
     makeOrder,
-    getOrders
+    getOrders,
+    getOrder
 }
